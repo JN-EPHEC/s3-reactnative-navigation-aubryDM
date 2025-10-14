@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Pressable, FlatList, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-// We import the type describing the stack routes and their params
-import { RootStackParamList } from "../_layout";
+// ✅ Use the Blog stack type (this screen lives inside the Blog tab’s stack now)
+import { BlogStackParamList } from "../navigation/SocialTabsNavigator";
 
-// Strongly-typed props for this screen: it belongs to "PostList"
-type Props = NativeStackScreenProps<RootStackParamList, "PostList">;
+// Strongly-typed props for this screen: it belongs to the Blog stack's "PostList" route
+type Props = NativeStackScreenProps<BlogStackParamList, "PostList">;
 
 /**
  * Fake, in-memory list of posts.
@@ -79,13 +79,9 @@ export default function PostListScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   // Root container takes full screen height
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
   // Add padding around the list content
-  list: {
-    padding: 16,
-  },
+  list: { padding: 16 },
   // Individual list item styling
   item: {
     paddingVertical: 12,
@@ -95,12 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.03)",
   },
   // Visual feedback when item is pressed
-  itemPressed: {
-    opacity: 0.7,
-  },
+  itemPressed: { opacity: 0.7 },
   // Title text inside each item
-  itemText: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
+  itemText: { fontSize: 16, fontWeight: "500" },
 });

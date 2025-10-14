@@ -2,56 +2,35 @@
 import "react-native-reanimated";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import PostListScreen from "./screens/PostListScreen";
-import PostDetailScreen from "./screens/PostDetailScreen";
 import SocialTabsNavigator from "./navigation/SocialTabsNavigator";
 
 /**
- * This TypeScript type describes every route in the stack and
- * the shape of the params each route expects.
- * - "PostList" takes no params (undefined)
- * - "PostDetail" expects an object with postId, title, and content
+ * Root-level stack routes.
+ * For Exercise 2, the root only hosts the Bottom Tabs (SocialTabs).
+ * If later you add auth/onboarding/modals, you’ll register them here too.
  */
 export type RootStackParamList = {
-  SocialTabs: undefined; //social tabs update
-  PostList: undefined;
-  PostDetail: { postId: string; title: string; content: string };
+  SocialTabs: undefined; // The bottom tabs navigator (Home, Profile, Settings, Blog)
 };
 
-// We create a native stack navigator that uses the type above for safety & autocompletion.
+// Create a typed native stack for the root level.
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootLayout() {
   /**
-   * IMPORTANT: We do NOT wrap this in <NavigationContainer> because
-   * expo-router provides a container at the root. Adding one here
-   * would cause the "nested NavigationContainer" error.
+   * IMPORTANT:
+   * We do NOT wrap this in <NavigationContainer> because expo-router
+   * already provides a container at the app root. Adding one here would
+   * cause the “nested NavigationContainer” error.
    */
   return (
     <Stack.Navigator initialRouteName="SocialTabs">
-      {/* Host the Tab Navigator as a "screen" at the root */}
+      {/* Single root screen: the Tabs. We hide the root header so the
+          tab screens manage their own headers. */}
       <Stack.Screen
         name="SocialTabs"
         component={SocialTabsNavigator}
         options={{ headerShown: false }}
-      />
-      
-      {/* First screen: list of posts */}
-      <Stack.Screen
-        name="PostList"
-        component={PostListScreen}
-        options={{ title: "The Blog" }}
-      />
-
-      {/* Second screen: shows the details of a single post.
-          We can optionally set the header title dynamically using the route params. */}
-      <Stack.Screen
-        name="PostDetail"
-        component={PostDetailScreen}
-        options={({ route }) => ({
-          // If you prefer a static title, replace this with: title: "Post Details"
-          title: route.params?.title ?? "Post Details",
-        })}
       />
     </Stack.Navigator>
   );
