@@ -4,6 +4,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import PostListScreen from "./screens/PostListScreen";
 import PostDetailScreen from "./screens/PostDetailScreen";
+import SocialTabsNavigator from "./navigation/SocialTabsNavigator";
 
 /**
  * This TypeScript type describes every route in the stack and
@@ -12,6 +13,7 @@ import PostDetailScreen from "./screens/PostDetailScreen";
  * - "PostDetail" expects an object with postId, title, and content
  */
 export type RootStackParamList = {
+  SocialTabs: undefined; //social tabs update
   PostList: undefined;
   PostDetail: { postId: string; title: string; content: string };
 };
@@ -26,8 +28,15 @@ export default function RootLayout() {
    * would cause the "nested NavigationContainer" error.
    */
   return (
-    <Stack.Navigator initialRouteName="PostList">
-      {/* First screen: displays a list of fake blog posts */}
+    <Stack.Navigator initialRouteName="SocialTabs">
+      {/* Host the Tab Navigator as a "screen" at the root */}
+      <Stack.Screen
+        name="SocialTabs"
+        component={SocialTabsNavigator}
+        options={{ headerShown: false }}
+      />
+      
+      {/* First screen: list of posts */}
       <Stack.Screen
         name="PostList"
         component={PostListScreen}
