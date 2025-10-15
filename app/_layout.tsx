@@ -2,35 +2,44 @@
 import "react-native-reanimated";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// Existing entry point (Exercises 1&2 + Blog)
 import SocialTabsNavigator from "./navigation/SocialTabsNavigator";
 
+// NEW: Exercise 3 entry point
+import ECommerceTabsNavigator from "./navigation/ECommerceTabsNavigator";
+
 /**
- * Root-level stack routes.
- * For Exercise 2, the root only hosts the Bottom Tabs (SocialTabs).
- * If later you add auth/onboarding/modals, you’ll register them here too.
+ * Root stack routes:
+ * - SocialTabs: your Exercises 1&2 hub (what you already built)
+ * - ECommerceTabs: Exercise 3 (Shop tabs with nested stack + My Cart)
+ *
+ * NOTE: We will replace this later with a Drawer as the final app root,
+ * but for Exercise 3 this is enough and keeps code simple.
  */
 export type RootStackParamList = {
-  SocialTabs: undefined; // The bottom tabs navigator (Home, Profile, Settings, Blog)
+  SocialTabs: undefined;
+  ECommerceTabs: undefined; // NEW route to reach Exercise 3
 };
 
-// Create a typed native stack for the root level.
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootLayout() {
-  /**
-   * IMPORTANT:
-   * We do NOT wrap this in <NavigationContainer> because expo-router
-   * already provides a container at the app root. Adding one here would
-   * cause the “nested NavigationContainer” error.
-   */
+  // IMPORTANT: no <NavigationContainer> here; expo-router provides it at the app root
   return (
     <Stack.Navigator initialRouteName="SocialTabs">
-      {/* Single root screen: the Tabs. We hide the root header so the
-          tab screens manage their own headers. */}
+      {/* Exercises 1&2 (your Social tabs + Blog) */}
       <Stack.Screen
         name="SocialTabs"
         component={SocialTabsNavigator}
         options={{ headerShown: false }}
+      />
+
+      {/* Exercise 3 (new) */}
+      <Stack.Screen
+        name="ECommerceTabs"
+        component={ECommerceTabsNavigator}
+        options={{ headerShown: false }} // Tabs manage their own headers
       />
     </Stack.Navigator>
   );
